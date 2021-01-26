@@ -28,19 +28,19 @@
             <div class="col-md-4">
                 <div class="deposit margin">
                     <h5>Deposit</h5>
-                    <h2>$00</h2>
+                    <h2>$ <span id="currentDeposit">00</span></h2>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="withdraw margin">
                     <h5>Withdraw</h5>
-                    <h2>$00</h2>
+                    <h2>$ <span id="currentWithdraw">00</span></h2>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="balance margin">
                     <h5>Balance</h5>
-                    <h2>$1250</h2>
+                    <h2>$<span id="currentBalance">1250</span> </h2>
                 </div>
             </div>
         </div>
@@ -48,17 +48,17 @@
             <div class="col-md-6">
                 <div class="submit-area">
                     <h4>Deposit</h4>
-                    <input type="text" class="form-control">
+                    <input id="depositAmount" type="text" class="form-control">
                     <br>
-                    <button class="btn btn-success">Deposit</button>
+                    <button id="add-deposit" class="btn btn-success">Deposit</button>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="submit-area form-control">
                     <h4>Withdraw</h4>
-                    <input type="text" class="form-control">
+                    <input id="withdrawAmount" type="text" class="form-control">
                     <br>
-                    <button class="btn btn-success">Deposit</button>
+                    <button id="add-withdraw" class="btn btn-success">Deposit</button>
                 </div>
             </div>
         </div>
@@ -73,6 +73,39 @@
             const transactionArea = document.getElementById('transaction-area');
             transactionArea.style.display = 'block';
         })
+        // deposit btn event handler
+        const depositBtn = document.getElementById('add-deposit');
+        depositBtn.addEventListener('click', function (){
+            const depositNumber = getInputNumber('depositAmount');
+
+            updateSpanText('currentDeposit', depositNumber);
+            updateSpanText('currentBalance', depositNumber);
+
+            document.getElementById('depositAmount').value = "";
+        })
+
+        //withdraw btn event handler
+        const withdrawBtn = document.getElementById('add-withdraw');
+        withdrawBtn.addEventListener('click', function (){
+            const withdrawNumber = getInputNumber('withdrawAmount');
+
+            updateSpanText('currentWithdraw', withdrawNumber);
+            updateSpanText('currentBalance', -1 * withdrawNumber);
+
+            document.getElementById('withdrawAmount').value = "";
+        })
+        function getInputNumber(id){
+            const amount = document.getElementById(id).value;
+            const amountNumber = parseFloat(amount);
+            return amountNumber;
+        }
+
+        function updateSpanText(id, depositNumber){
+            const current = document.getElementById(id).innerText;
+            const currentNumber = parseFloat(current);
+            const total = depositNumber + currentNumber;
+            document.getElementById(id).innerText = total;
+        }
     </script>
     <script src="bootstrap.bundle.min.js"></script>
 </body>
